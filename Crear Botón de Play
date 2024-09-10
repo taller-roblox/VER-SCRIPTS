@@ -1,0 +1,10 @@
+local camara = workspace.CurrentCamera
+local boton = script.Parent.Play
+
+camara.CameraType = Enum.CameraType.Scriptable
+
+local function presionarBoton()
+	camara.CameraType = Enum.CameraType.Custom
+	boton.Parent.Enabled = false
+end
+boton.Activated:Connect(presionarBoton)
