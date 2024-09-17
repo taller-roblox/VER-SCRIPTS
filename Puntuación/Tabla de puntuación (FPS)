@@ -1,1 +1,51 @@
+--Primero preparamos los servicios que necesitamos para crear el script 
+local Players = game:GetService("Players")
+
+--Los jugadores que se unen a la partida son marcados como "vivos" al comenzar a jugar 
+local function onCharacterAdded(character, player)
+	player:SetAttribute("IsAlive", true)
+	local humanoid = character:WaitForChild("Humanoid")
+
+--Si algún jugador muere, se le descuentan los puntos obtenidos y vuelve a cero, además se marca como muerto 
+	humanoid.Died:Connect(function()
+		local points = player.leaderstats.Points
+		points.Value = 0
+		player:SetAttribute("IsAlive", false)
+	end)
+end
+
+--Cuando un jugador se une a la partida se le crea una carpeta "leaderstats" en la que se guardarán los puntos obtenidos 
+local function onPlayerAdded(player)
+	local leaderstats = Instance.new("Folder")
+	leaderstats.Name = "leaderstats"
+	leaderstats.Parent = player
+--Creamos un valor numérico para guardar los puntos obtenidos 
+	local points = Instance.new("IntValue")
+	points.Name = "Points"
+	points.Value = 0
+	points.Parent = leaderstats
+
+	player:SetAttribute("IsAlive", false)
+--Cuando el jugador se une a la partida se le asigna un personaje y se conecta la función onCharacterAdded para que se ejecute cada vez que el jugador obtiene un nuevo personaje 
+	player.CharacterAdded:Connect(function(character)
+		onCharacterAdded(character, player)
+	end)
+end
+--Se conecta la función onPlayerAdded para que se ejecute cada vez que un jugador se une a la partida 
+Players.PlayerAdded:Connect(onPlayerAdded)
+
+--Bucle infinito para sumar puntos a los jugadores que estén vivos cada segundo 
+while true do
+	task.wait(1)
+	local playerList = Players:GetPlayers()
+	for i = 1, #playerList do
+		local player = playerList[i]
+		if player:GetAttribute("IsAlive") then
+			local points = player.leaderstats.Points
+			points.Value += 1
+		end
+	end
+end
+
+
 
