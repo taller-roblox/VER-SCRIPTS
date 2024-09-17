@@ -1,0 +1,40 @@
+-- Primero activamos algunos servicios que necesitamos para hacer nuestro script
+local Workspace = game:GetService("Workspace")
+local Players = game:GetService("Players")
+
+-- Agregamos un sonido
+local sound = Instance.new("Sound")
+sound.Parent = Workspace.Coins.Coin
+sound.SoundId = "rbxassetid://9120386436"
+
+--Accedemos a la carpeta que contiene nuestras monedas (de acuerdo con este código la carpeta se llama Coins, pero la podríamos llamar de otra manera.)
+local coinsFolder = Workspace.Coins
+local coins = coinsFolder:GetChildren()
+
+
+-- Creamos una función que se activará cuando una moneda sea tocada
+local function onCoinTouched(otherPart, coin)
+	
+	-- Verificamos si el objeto que tocó la moneda es un jugador
+	if coin:GetAttribute("Enabled") then
+		local character = otherPart.Parent
+		local player = Players:GetPlayerFromCharacter(character)
+		
+		if player then
+			-- Si el jugador tocó una moneda, la desapareceremos y la desactivaremos
+			coin.CanCollide = false
+			coin.Transparency = 1
+			coin:SetAttribute("Enabled", false)
+			--Iniciamos nuestro sonido
+			sound:Play()
+		end
+	end
+end
+
+-- Creamos un bucle para que cada moneda se active cuando sea tocada y desaparezca
+for _, coin in coins do
+	coin:SetAttribute("Enabled", true)
+	coin.Touched:Connect(function(otherPart)
+		onCoinTouched(otherPart, coin)
+	end)
+end
