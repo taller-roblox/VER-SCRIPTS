@@ -1,14 +1,20 @@
+--Guardamos la plataforma en una variable para poder utilizarla
 local platform = script.Parent
 
+--Definimos que la plataforma no está siendo tocada por el jugador
 local isTouched = false
 
+--Creamos una función que se activará cuando el jugador interactúe con la plataforma
 local function fade()
+	--Comprobamos si la plataforma no está siendo tocada por el jugador
 	if not isTouched then
 		isTouched = true
+		--Hacemos que la plataforma se haga invisible y se destruya
 		for count = 1, 10 do
-		    platform.Transparency = count / 10
-		    task.wait(0.1)
-	    end
+			platform.Transparency = count / 10
+			task.wait(0.1)
+		end
+		--Hacemos que la plataforma se haga visible y se regenere
 		platform.CanCollide = false
 		task.wait(3)
 		platform.CanCollide = true
