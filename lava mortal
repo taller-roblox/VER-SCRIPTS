@@ -1,10 +1,16 @@
+--Guardamos nuestro objeto lava en una variable para poder usarla
 local lava = script.Parent
+
+--Creamos una función para chequear si un jugador toca la lava
 local function kill(otherPart)
-    local partParent = otherPart.Parent
-    local humanoid = partParent:FindFirstChild("Humanoid")
-    if humanoid then
-        humanoid.Health = 0
-    end
+	local partParent = otherPart.Parent
+	local humanoid = partParent:FindFirstChild("Humanoid")
+	
+	--Si el jugador toca la lava, entonces su vida se iguala a cero
+	if humanoid then
+		humanoid.Health = 0
+	end
 end
 
+--Conectamos la función a los eventos Touched de la lava
 lava.Touched:Connect(kill)
