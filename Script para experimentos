@@ -1,0 +1,34 @@
+local unaPieza = script.Parent
+
+local function hacerAlgo(otraPieza)
+	local piezaRaiz = otraPieza.Parent
+	local humanoid = piezaRaiz:FindFirstChild("Humanoid")
+
+	if humanoid then
+
+
+
+
+
+		--escribir acá (entre la linea "if humanoid then" y "end") la linea de código que necesites
+
+		--para bajar la salud del jugador escribí: humanoid.Health = 0
+		--para hacer que el jugador salte: humanoid.Jump = true
+		--para hacer que el jugador salte más alto: humanoid.JumpHeight = 100 (o el número que quieras)
+		--para hacer que el jugador corra más rápido: humanoid.WalkSpeed = 100 (o el número que quieras)
+		--para hacer que el jugador corra más rápido y después vuelva a la normalidad, escribí: 
+		--humanoid.WalkSpeed = 110 
+		--task.wait(5) 
+		--humanoid.WalkSpeed = 20
+		--para hacer que la pieza desaparezca cuando la toques, escribí: unaPieza.transparency = 1
+
+
+
+
+
+
+
+	end
+end
+
+unaPieza.Touched:Connect(hacerAlgo)
