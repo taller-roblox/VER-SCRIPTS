@@ -1,0 +1,26 @@
+--Primero guardamos nuestra pieza en una variable llamada "unaPiezaAnimada"
+local unaPiezaAnimada = script.Parent
+
+--Creamos una función llamada "animar". Una función es un código que podés usar muchas veces
+local function animar()
+	
+	--Creamos una variable llamada "orientacion" dónde guardamos el valor de orientación actual de la pieza
+	local orientacion = 0
+	
+	--Creamos un bucle, para que la animación se repita durante todo el juego
+	while true do
+		
+		
+		unaPiezaAnimada.Orientation = Vector3.new(0, orientacion, 0)
+		task.wait(0.01)
+		--Modificamos la orientación de nuestra pieza sumando 5 a su valor actual cada un 0.01 segundo
+		orientacion = orientacion + 5
+		
+			
+	end
+	
+end
+
+
+--Llamamos a nuestra función para que se ejecute y la pieza realice su animación
+animar()
