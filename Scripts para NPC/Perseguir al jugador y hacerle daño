@@ -1,0 +1,38 @@
+local distanciamax = 200 --distancia máxima para perseguir al jugador
+local distanciamin = 0 -- distancia mínima para perseguir al jugador
+
+-- Creamos una función para que el NPC persiga al jugador
+function perseguirJugador()
+		-- Esperamos a que haya jugadores en el juego
+	repeat wait() until game.Players.NumPlayers >= 1
+	local NPC = script.Parent
+	local NPCHumanoidRoot = NPC.HumanoidRootPart
+	local NPCHumanoid = NPC.Humanoid
+
+	for i,v in pairs(game.Players:GetPlayers()) do
+		repeat wait() until v.Character 
+		-- Comprobamos si el jugador está cerca del NPC
+		if (v.Character.HumanoidRootPart.Position - NPCHumanoidRoot.Position).Magnitude <= distanciamax and (v.Character.HumanoidRootPart.Position - NPCHumanoidRoot.Position).Magnitude >= distanciamin then
+			-- Movemos al NPC hacia el jugador
+			NPCHumanoid:MoveTo(v.Character.HumanoidRootPart.Position - Vector3.new(0,distanciamin,0))
+			-- Si el jugador está muy cerca del NPC, detener la persecucion
+			if v.Character.Humanoid.Jump == true then 
+				NPCHumanoid.Jump = true
+			end
+			-- Si el jugador está muy cerca del NPC, matar al jugador
+			NPCHumanoidRoot.Touched:Connect(function(hit) 
+				if hit.Parent:FindFirstChild("Humanoid") then
+					hit.Parent:FindFirstChild("Humanoid"):TakeDamage(100)
+				end
+			end)
+		end
+	end
+end
+
+--Perseguimos al jugador mientras dure la partida
+
+while wait() do
+	perseguirJugador()
+end
+
+--NPC son las siglas de Non Player Character, es decir, un personaje que no es controlado por un jugador.
