@@ -1,0 +1,31 @@
+--Creamos una función para buscar el objetivo del personaje NPC ( a quién va a perseguir)
+function FindTarget()
+	--creamos dos variables, una con la distancia máxima entre el npc y el obetivo, y otra con el objetivo (nil significa que aún no hay guardado ningún objetivo al que perseguir)
+	local maxDistance = 100
+	local target = nil
+	--recorremos todos los objetos dentro del workspace y buscamos si hay alguno que sea un personaje (que tenga un Humanoid)
+	for i,v in pairs(workspace:GetChildren()) do
+		if v:FindFirstChild("Humanoid") then
+			--comparamos la distancia entre el npc y el personaje encontrado con la distancia máxima
+			if (v.Head.Position-script.Parent.Head.Position).magnitude < maxDistance then
+				--si la distancia es menor a la máxima, entonces el personaje encontrado es el objetivo
+				target = v.Head
+			end
+		end
+	end
+	return target
+end
+
+--Creamos un bucle para que el NPC siga al jugador (un bucle es un evento que se repite)
+
+while wait(0.1) do
+	local target = FindTarget()
+	--Si el objetivo no es nulo (es decir, si hay un jugador cercano)
+	if target then
+		--el NPC se moverá hacia la posición del jugador
+		script.Parent.Humanoid:MoveTo(target.Position)
+	end
+end
+
+
+--NPC son las siglas de Non Player Character, es decir, un personaje que no es controlado por un jugador.
