@@ -1,0 +1,17 @@
+--Obtenemos la animación que queremos reproducir (el nombre de la animación la tenemos que escribir dentro de los paréntesis de la siguiente función)
+local animation = script:WaitForChild("RunAnim")
+--Accedemos a la animaciones de nuestro NPC
+local humanoid = script.Parent:WaitForChild('Humanoid')
+--Creamos una instacia de "animator" para poder cargar la animación
+local animator = Instance.new('Animator')
+animator.Parent = humanoid
+--Cargamos la animación en el objeto animator
+local loadAnim = animator:LoadAnimation(animation)
+
+--Bucle infinito para que se reproduzca la animación cada 2 segundos
+while wait(2) do
+
+     loadAnim:Play()
+
+end
+
