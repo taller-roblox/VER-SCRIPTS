@@ -1,0 +1,19 @@
+--Creamos dos variables para guardar el objeto "ClickDetector" (que es quién detecta el clic del mouse) y nuestra pieza (part)
+local clickDetector = script.Parent
+local part = script.Parent.Parent
+
+--Creamos una función con el nombre "mouseClickeado" y adentro le escribimos la instrucción con lo que queremos que haga el juego cuando clickeamos el objeto
+local function mouseClickeado()
+	
+	
+	-- para cambiar de color la pieza: part.BrickColor = BrickColor.new("Bright red")
+	
+	-- para cambiar el material de la pieza: part.Material = Enum.Material.DiamondPlate
+	
+	-- para cambiar la posicion de un objeto: part.Position = part.Position + Vector3.new(20, 20, 100) 
+	
+	
+end
+
+-- Conectamos la función con el evento "MouseClick" (El mouse fue clickeado)
+clickDetector.MouseClick:Connect(mouseClickeado)
