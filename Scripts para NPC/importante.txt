@@ -1,0 +1,5 @@
+ASEGURATE QUE:
+
+- Tu Rig está creado dentro de WORKSPACE
+
+- Tu Script está dentro del RIG
