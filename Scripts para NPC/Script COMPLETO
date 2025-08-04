@@ -1,0 +1,70 @@
+local npc = script.Parent
+local humanoid = npc:WaitForChild("Humanoid")
+local rootPart = npc:WaitForChild("HumanoidRootPart")
+
+local walkAnimation = Instance.new("Animation")
+walkAnimation.AnimationId = "http://www.roblox.com/asset/?id=913376220" --acá podés cambiar el id de tu animación
+local animator = humanoid:WaitForChild("Animator")
+local walkTrack = animator:LoadAnimation(walkAnimation)
+
+--Si cambiás estos valores podés hacer que tu NPC ataque más fuerte o sea más rápido
+local attackRange = 4
+local damage = 10
+local attackCooldown = 1.5
+local speed = 8
+
+local canAttack = true
+
+-- Detectar jugador más cercano
+function getNearestPlayer()
+	local nearestPlayer = nil
+	local shortestDistance = math.huge
+
+	for _, player in pairs(game.Players:GetPlayers()) do
+		if player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
+			local distance = (player.Character.HumanoidRootPart.Position - rootPart.Position).Magnitude
+			if distance < shortestDistance then
+				shortestDistance = distance
+				nearestPlayer = player
+			end
+		end
+	end
+
+	return nearestPlayer
+end
+
+-- Atacar jugador
+function attack(player)
+	if canAttack and player and player.Character and player.Character:FindFirstChild("Humanoid") then
+		local distance = (player.Character.HumanoidRootPart.Position - rootPart.Position).Magnitude
+		if distance <= attackRange then
+			canAttack = false
+			player.Character.Humanoid:TakeDamage(damage)
+			wait(attackCooldown)
+			canAttack = true
+		end
+	end
+end
+
+-- Movimiento y lógica principal
+while true do
+	local player = getNearestPlayer()
+	if player and player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
+		local direction = (player.Character.HumanoidRootPart.Position - rootPart.Position).Unit
+		rootPart.CFrame = CFrame.new(rootPart.Position, player.Character.HumanoidRootPart.Position)
+		humanoid:Move(direction * speed, false)
+
+		if not walkTrack.IsPlaying then
+			walkTrack:Play()
+		end
+
+		attack(player)
+	else
+		humanoid:Move(Vector3.new(0, 0, 0), false)
+		if walkTrack.IsPlaying then
+			walkTrack:Stop()
+		end
+	end
+	wait(0.1)
+end
+
