@@ -1,0 +1,27 @@
+-- Script para ServerScriptService
+
+local Lighting = game:GetService("Lighting")
+
+-- Configuración
+local segundosPorCiclo = 120 -- Tiempo total para un día completo (día + noche) en segundos
+local tiempoInicial = 6 -- Hora inicial del día (6 = 6:00 AM)
+local velocidadTiempo = 24 / segundosPorCiclo -- Cuántas horas de juego pasan por segundo real
+
+local tiempoActual = tiempoInicial
+
+while true do
+	-- Actualizar Lighting.TimeOfDay
+	Lighting.TimeOfDay = string.format("%02d:%02d:00", math.floor(tiempoActual), math.floor((tiempoActual % 1) * 60))
+
+	-- Esperar un poco antes de avanzar la hora
+	wait(1)
+
+	-- Avanzar el tiempo
+	tiempoActual = tiempoActual + velocidadTiempo
+
+	-- Reiniciar si pasa de 24 horas
+	if tiempoActual >= 24 then
+		tiempoActual = tiempoActual - 24
+	end
+end
+
